@@ -1,0 +1,311 @@
+.menuBackground
+{
+	background: url(images/menu.jpg);
+	height: 100%;
+	overflow: hidden;
+	background-size: 100% 100%;
+}
+
+#chooseSide
+{
+	text-align: center;
+	font-size: 4em;
+	color: white;
+}
+.lightText
+{
+	text-align: left;
+	font-size: 3em;
+	color: white;
+	text-shadow: blue 0 0 20px;
+}
+
+
+
+.darkText
+{
+	text-align: right;
+	font-size: 3em;
+	color: white;
+	text-shadow: red 0 0 20px;
+}
+
+.lightLink
+{
+	clear:both;
+	text-align: left;
+	font-size: 3em;
+	color: white;
+	text-shadow: blue 0 0 20px;
+}
+.lightLink a:hover{
+	color: blue;
+}
+
+.darkLink
+{
+	text-align: right;
+	margin-right: 0x;
+	font-size: 3em;
+	color: white;
+	text-shadow: red 0 0 20px;
+}
+
+.darkLink a:hover{
+	color: red;
+}
+
+.light
+{
+	background: url(images/light.jpg);
+	height: 100%;
+	overflow: hidden;
+	background-size: 100% 100%;
+	margin: 0;
+}
+
+.dark
+{
+	background: url(images/dark.jpg);
+	height: 100%;
+	overflow: hidden;
+	background-size: 100% 100%;
+	margin: 0;
+}
+
+a
+{
+	color: white;
+}
+
+a:hover
+{
+	text-decoration: none;
+}
+
+.battleScreen
+{
+	background: url(images/battleBackground.jpg);
+	height: 100%;
+	background-size: 100% 100%;
+}
+
+.gameDescription{
+    font-size: 20pt;
+    color: white;
+    margin: 100px;
+    text-align: center;
+    background: #333333;
+    opacity: .8;
+    padding: 5px;
+}
+
+/*prep page*/
+.beginButton
+{
+	text-align: center;
+	font-size: 3em;
+	color: white;
+	text-shadow: purple 0 0 20px;
+}
+
+.beginButton a:hover
+{
+	color: purple;
+}
+
+.table{
+	display: table;
+}
+
+.cell{
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.unitDisplay
+{
+	text-align: center;
+	width: 50%;
+	height: 100%;
+}
+
+.unitDisplayName
+{
+	color: white;
+	font-size: 3em;
+	margin-bottom: 20px;
+}
+
+.unitDisplayImage img
+{
+	height: 300px;
+	border-radius: 15%;
+}
+
+.heroDisplayPower
+{
+	color: white;
+	font-size: 2.5em;
+}
+
+.armyInfo
+{
+	color: white;
+	font-size: 2.5em;
+}
+
+/*customization pages*/
+
+.customizeScreen
+{
+	background: url(images/stars.jpg);
+	height: 100%;
+	overflow: hidden;
+	background-size: 100% 100%;
+}
+
+.creationTitle
+{
+	font-size: 2em;
+}
+
+.creationInputs
+{
+	margin-top: 5px;
+}
+
+.armyCreation
+{
+	background-color: white;
+	border-radius:5%;
+	width: 350px;
+	height: 260px;
+	padding: 10px 0px;
+	text-align: center;
+}
+
+.abilityList
+{
+	background-color: white;
+	border-radius:5%;
+	width: 350px;
+	height: 650px;
+	padding: 10px 0px;
+	text-align: center;
+}
+
+.changebtn
+{
+	margin-top: 20px;
+}
+
+.armyOption
+{
+    display: inline-block;
+    color: white;
+    font-size: 1.7em;
+    border-radius: 10%;
+    margin: 5px;
+    background: #4d004d;
+    text-align: center;
+    width: 48%;
+}
+
+.armyOption:hover{
+	background: #1a001a;
+}
+
+.armyOptionImage
+{
+	height: 200px;
+    max-width: 95%;
+	border-radius:15%;
+	display: inline-block;
+}
+
+.armyOptionName
+{
+
+}
+
+.cover
+{
+	background-color: black;
+}
+
+.myinput
+{
+	width: 300px;
+	margin-bottom: 10px;
+	font-size: 14pt;
+}
+
+.power
+{
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 1.5em;
+}
+
+/*battle page*/
+
+.lightDisplay
+{
+	margin-left: 150px;
+	float: left;
+}
+
+.darkDisplay
+{
+	margin-right: 150px;
+	float: right;
+}
+
+.heroDisplayName
+{
+	color: white;
+	font-size: 3em;
+	margin-bottom: 20px;
+}
+
+.heroDisplayImage img
+{
+	width: auto;
+	height: 325px;
+	border-radius:15%;
+}
+
+.armyDisplayImage img
+{
+	width: auto;
+	height: 250px;
+	border-radius:15%;
+}
+
+.gameUpdates
+{
+    font-size: 20pt;
+    color: white;
+    width: 500px;
+    margin-left: 700px;
+    margin-top: 50px;
+    text-align: center;
+    background: #333333;
+    opacity: .8;
+    padding: 5px;
+    border-radius:5%;
+}
+
+.usepower
+{
+
+}
+
+.usepower:hover
+{
+	cursor:pointer;
+	color: purple;
+}
