@@ -1,0 +1,210 @@
+<html class = "cover">
+	<head>
+		<title>SW Battle</title>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+		<script <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
+
+		<script src="https://angular-ui.github.io/ui-router/release/angular-ui-router.js"></script>
+
+		<link href="STBattle.css" rel="stylesheet">
+	</head>
+	<body ng-app = "STBattle">
+
+				<ui-view></ui-view>
+
+		<script type="text/ng-template" id="/menu.html">
+			<div class="menuBackground">
+				<div class="col-md-6 col-md-offset-3">
+					<div id = "chooseSide">
+						Choose your side
+					</div>
+					<table style="width:100%; margin-top: 150px;">
+						<tr>
+							<td style="width: 50%;">
+								<div class = "lightLink" ng-click="chooseLight()">
+									<a href ="#/prep">Light</a>
+								</div>
+							</td>
+							<td>
+								<div class = "darkLink" ng-click="chooseDark()">
+									<a href ="#/prep">Dark</a>
+								</div>
+							</td>
+						</tr>
+					</table>
+					<div class="gameDescription">
+						Choose a side to battle in the fight between the Light Side and the Dark Side. Use basic attacks to damage an enemy hero and charge your powers to unleash upon the enemy in this turn-based strategy game.
+					</div>
+				</div>
+			</div>
+		</script>
+
+		<script type="text/ng-template" id="/prep.html">
+			<div class="table" ng-class = side>
+				<div class="cell">
+					<table style="width: 100%">
+						<tr>
+							<td class = "unitDisplay">
+								<div style="height: 100%">
+									<div class = "unitDisplayName">{{heroName}}</div>
+									<div class = "unitDisplayImage"><img src= {{heroImage}}></img></div>
+									<div class = "heroDisplayPower" style="padding-top: 20px">
+										Abilities: {{heroPower1}}, {{heroPower2}}
+									</div>
+									<a href = "#/hero"><button class = "changebtn btn btn-primary">Change Hero</button></a>
+								</div>
+							</td>
+							<td class = "unitDisplay">
+								<div style="height: 100%">
+									<div class = "unitDisplayName">{{armyName}}</div>
+									<div class = "unitDisplayImage"><img src = {{armyImage}}></img></div>
+									<div class = "armyInfo" style="padding-top: 20px">
+										Army Size: {{armySize}} <br/>
+										Weapons Level: {{armyWeapon}}
+									</div>
+									<a href = "#/army"><button class = "changebtn btn btn-primary">Change Army</button></a>
+								</div>
+							</td>
+						</tr>
+					</table>
+					<div class = "beginButton">
+						<a href = "#/battle">Begin Battle</a>
+					</div>
+				</div>
+			</div>
+		</script>
+
+		<script type="text/ng-template" id="/hero.html">
+			<div class = "customizeScreen">
+				<table style="width: 100%; height: 100%">
+					<tr>
+						<td>
+							<div class = "armyCreation">
+								<div class = "creationTitle">Create your own Hero</div>
+								<div class = "creationInputs">
+									<form class = "" name='data' ng-submit='addNewHero(data)'>
+										<input class = "myinput" placeholder="Name" ng-model='data.name'/>
+
+										<input class = "myinput" placeholder="Image src (default provided)" ng-model='data.image'/>
+
+										<input class = "myinput" placeholder="Ability 1 (see options below)" ng-model='data.ability1'/>
+
+										<input class = "myinput" placeholder="Ability 2 (must be spelled correctly)" ng-model='data.ability2'/>
+
+										<button class = "btn btn-primary myinput" type='submit'>Create</button>
+									</form>
+								</div>
+							</div>
+						</td>
+						<td style="width: 60%">
+							<div style="text-align:center">
+								<a href = "#/prep" ng-repeat="hero in heros | side">
+									<div class = "armyOption" ng-click="updateHeroChoice(hero)">
+										<div class =  "armyOptionName">{{hero.name}}</div>
+										<img class = "armyOptionImage" src = {{hero.image}}></img><br>
+										Abilities: {{hero.power1.name}}, {{hero.power2.name}}
+									</div>
+								</a>
+							</div>
+						</td>
+						<td>
+							<div class = "abilityList">
+								<div class = "creationTitle">Abilities</div></br>
+								<div ng-repeat="power in powers" class = "power">
+									<strong>{{power.name}}</strong></br>
+									{{power.description}}
+								</div>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</script>
+
+		<script type="text/ng-template" id="/army.html">
+			<div class = "customizeScreen">
+				<table style="width: 100%; height: 100%">
+					<tr>
+						<td>
+							<div class = "armyCreation">
+								<div class = "creationTitle">Create your own Army</div>
+								<div class = "creationInputs">
+									<form class = "" name='data' ng-submit='addNewArmy(data)'>
+										<input id = "newArmyName" class = "myinput" placeholder="Name" ng-model='data.name'/>
+
+										<input id = "newArmyImage" class = "myinput" placeholder="Image src (default provided)" ng-model='data.image'/>
+
+										<input id = "newArmyWeapon" class = "myinput" placeholder="Weapon Level (1-10)" ng-model='data.weapon'/>
+
+										<input id = "newArmySize" class = "myinput" placeholder="Army Size (1-10)" ng-model='data.size'/>
+
+										<button class = "btn btn-primary myinput" type='submit'>Create</button>
+									</form>
+								</div>
+							</div>
+						</td>
+						<td style="width: 80%">
+							<div style="text-align:center">
+								<a href = "#/prep" ng-repeat="army in armies | side">
+									<div class = "armyOption" ng-click="updateArmyChoice(army)">
+										<div class =  "armyOptionName">{{army.name}}</div>
+										<img class = "armyOptionImage" src = {{army.image}}></img><br>
+										Weapons Level: {{army.weapons}} </br>
+										Army Size: {{army.numbers}}
+									</div>
+								</a>
+							</div>
+						</td>
+					</tr>
+				</table>
+
+			</div>
+		</script>
+
+		<script type="text/ng-template" id="/battle.html">
+			<div class="battleScreen">
+				<div class = "gameUpdates">
+
+					{{curMessage}}
+
+					<div ng-click = "usePower1()" class = "usepower">{{power1}}</div>
+					<div ng-click = "usePower2()" class = "usepower">{{power2}}</div>
+					<a href = "#/menu"><div ng-click = "usePower2()" class = "usepower">{{menulink}}</div></a>
+
+					<button class = "btn btn-primary" ng-click = "phase()">Attack</button>
+
+				</div>
+				<div class = "lightDisplay">
+
+
+					<div class = "heroDisplayName">{{light.hero.name}}</div>
+					<div class = "armyInfo">
+						Army Size:<span style = "color:red">{{lightLife}}</span> <br/>
+					</div>
+					<div class = "heroDisplayImage"><img src= {{light.hero.image}}></img></div>
+					<div class = "armyDisplayImage"><img src = {{light.army.image}}></img></div>
+
+
+				</div>
+
+				<div class = "darkDisplay">
+
+					<div class = "heroDisplayName">{{dark.hero.name}}</div>
+					<div class = "armyInfo">
+						Army Size: <span style = "color:red">{{darkLife}}</span> <br/>
+					</div>
+					<div class = "heroDisplayImage"><img src= {{dark.hero.image}}></img></div>
+					<div class = "armyDisplayImage"><img src = {{dark.army.image}}></img></div>
+
+				</div>
+			</div>
+		</script>
+
+		<script src = "STBattle.js"></script>
+	</body>
+</html>
