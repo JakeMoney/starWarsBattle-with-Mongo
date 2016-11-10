@@ -88,6 +88,7 @@ a:hover
 	background: url(images/battleBackground.jpg);
 	height: 100%;
 	background-size: 100% 100%;
+	overflow: hidden;
 }
 
 .gameDescription{
@@ -161,7 +162,7 @@ a:hover
 {
 	background: url(images/stars.jpg);
 	height: 100%;
-	overflow: hidden;
+	/*overflow: hidden;*/
 	background-size: 100% 100%;
 }
 
@@ -180,9 +181,11 @@ a:hover
 	background-color: white;
 	border-radius:5%;
 	width: 350px;
-	height: 260px;
+	height: 300px;
 	padding: 10px 0px;
 	text-align: center;
+	margin-top: 30px;
+	margin-left: 30px;
 }
 
 .abilityList
@@ -190,9 +193,11 @@ a:hover
 	background-color: white;
 	border-radius:5%;
 	width: 350px;
-	height: 650px;
+	height: 850px;
 	padding: 10px 0px;
 	text-align: center;
+	margin-top: 30px;
+	margin-right: 30px;
 }
 
 .changebtn
@@ -254,14 +259,14 @@ a:hover
 
 .lightDisplay
 {
-	margin-left: 150px;
-	float: left;
+	text-align: left;
+	margin-left: 20px;
 }
 
 .darkDisplay
 {
-	margin-right: 150px;
-	float: right;
+	text-align: right;
+	margin-right: 20px;
 }
 
 .heroDisplayName
@@ -273,25 +278,24 @@ a:hover
 
 .heroDisplayImage img
 {
-	width: auto;
-	height: 325px;
+	height: 250px;
 	border-radius:15%;
 }
 
 .armyDisplayImage img
 {
-	width: auto;
-	height: 250px;
+	height: 225px;
 	border-radius:15%;
+	margin-top: 20px;
 }
+
 
 .gameUpdates
 {
+	display: inline-block;
     font-size: 20pt;
     color: white;
     width: 500px;
-    margin-left: 700px;
-    margin-top: 50px;
     text-align: center;
     background: #333333;
     opacity: .8;

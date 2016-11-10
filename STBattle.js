@@ -35,10 +35,10 @@ app.config([
 	$urlRouterProvider.otherwise('menu');
 }]);
 
-varService.service('gameVars', function()
+varService.service('gameVars', function($http)
 {
 	var forceChoice = "";
-
+	
 	var armies = {
 		CloneTroopers: {
 			name: "Clone Troopers",
@@ -211,6 +211,7 @@ varService.service('gameVars', function()
 			}
 		}
 	};
+	
 
 	var heroSelect = {
 		name: "",
@@ -235,7 +236,7 @@ varService.service('gameVars', function()
 			taked: 0,
 			giveh: 25,
 			takeh: 0,
-			description: "Use the force to heal wounded soliders"
+			description: "Use the force to heal wounded soliders.  Restores 25 army supply."
 		},
 		ForceLightning: {
 			name: "Force Lightning",
@@ -243,7 +244,7 @@ varService.service('gameVars', function()
 			taked: 0,
 			giveh: 0,
 			takeh: 30,
-			description: "Use the force to unleash devastation on the enemy soliders"
+			description: "Use the force to unleash devastation on the enemy soliders.  Deal 30 damage."
 		},
 		Inspire: {
 			name: "Inspire",
@@ -251,7 +252,7 @@ varService.service('gameVars', function()
 			taked: 0,
 			giveh: 20,
 			takeh: 0,
-			description: "Inspire your soliders.  They gain more attack."
+			description: "Inspire your soliders.  They gain more attack.  Increase army supply by 20 and weapon levels by 2."
 		},
 		LoomingPresence: {
 			name: "Looming Presence",
@@ -259,7 +260,7 @@ varService.service('gameVars', function()
 			taked: 3,
 			giveh: 0,
 			takeh: 10,
-			description: "The enemy soliders are terrified by your arrival.  They lose attack and some troops cower."
+			description: "The enemy soliders are terrified by your arrival.  They lose attack and some troops cower.  Enemies lose 10 army supply and 3 weapon levels."
 		},
 		ForceBlast: {
 			name: "Force Blast",
@@ -267,7 +268,7 @@ varService.service('gameVars', function()
 			taked: 1,
 			giveh: 0,
 			takeh: 15,
-			description: "Use the force to push back all enemy soliders."
+			description: "Use the force to push back all enemy soliders.  Deal 15 damage and remove 1 Weapon Level from enemy Army."
 		}
 	};
 
@@ -276,13 +277,13 @@ varService.service('gameVars', function()
 		return abilities;
 	}
 
-	this.addHero =function(name, hero)
+	/*this.addHero =function(name, hero)
 	{
 		name = name.replace(/\s+/, "");
 		heros[name] = hero;
 		heros[name].power1 = hero.power1;
 		heros[name].power2 = hero.power2;
-	};
+	};*/
 
 	this.getHero = function(name)
 	{
@@ -294,10 +295,10 @@ varService.service('gameVars', function()
 		return heros;
 	};
 
-	this.addArmy = function(name, army)
+	/*this.addArmy = function(name, army)
 	{
 		armies[name] = army;
-	};
+	};*/
 
 	this.getAllArmies = function()
 	{
@@ -328,33 +329,24 @@ varService.service('gameVars', function()
 	{
 		return heroSelect;
 	};
-	this.setCurHero = function(inName)
+	this.setCurHero = function(inHero)
 	{
-		inName = inName.replace(/\s+/, "");
-		heroSelect.name = heros[inName].name;
-		heroSelect.image = heros[inName].image;
-		heroSelect.side = heros[inName].side;
-		heroSelect.power1 = heros[inName].power1;
-		heroSelect.power2 = heros[inName].power2;
+		heroSelect = inHero;
 	};
 	this.getCurArmy = function()
 	{
 		return armySelect;
 	};
-	this.setCurArmy = function(inName)
+	this.setCurArmy = function(inArmy)
 	{
-		inName = inName.replace(/\s+/, "");
-		armySelect.name = armies[inName].name;
-		armySelect.image = armies[inName].image;
-		armySelect.side = armies[inName].side;
-		armySelect.weapons = armies[inName].weapons;
-		armySelect.numbers = armies[inName].numbers;
+		armySelect = inArmy;
 	};
 	this.getAbility = function(name)
 	{
 		name = name.replace(/\s+/, "");
 		return abilities[name];
 	};
+	
 });
 
 app.filter('side', function(gameVars)
@@ -379,16 +371,76 @@ app.controller('menuCtrl',function($scope, gameVars)
 {
 	$scope.chooseLight = function()
 	{
+		var LukeSkywalker = {
+			name: "Luke Skywalker",
+			image: "images/luke.jpg",
+			side: "light",
+			power1: {
+				name: "Force Heal",
+				gived: 0,
+				taked: 0,
+				giveh: 25,
+				takeh: 0,
+				description: "Use the force to heal wounded soliders"
+			},
+			power2:{
+				name: "Inspire",
+				gived: 2,
+				taked: 0,
+				giveh: 20,
+				takeh: 0,
+				description: "Inspire your soliders.  They gain more attack."
+			}
+		}
+		
+		var Rebels = {
+			name: "Rebels",
+			image: "images/rebel.jpg",
+			side: "light",
+			weapons: 6,
+			numbers: 8
+		}
+		
 		gameVars.setCurForceChoice(1);
-		gameVars.setCurHero("LukeSkywalker");
-		gameVars.setCurArmy("Rebels");
+		gameVars.setCurHero(LukeSkywalker);
+		gameVars.setCurArmy(Rebels);
 	};
 
 	$scope.chooseDark = function()
 	{
+		var DarthVader = {
+			name: "Darth Vader",
+			image: "images/vader.jpg",
+			side: "dark",
+			power1:{
+				name: "Looming Presence",
+				gived: 0,
+				taked: 3,
+				giveh: 0,
+				takeh: 10,
+				description: "The enemy soliders are terrified by your arrival.  They lose attack and some troops cower."
+			},
+			power2:{
+				name: "Force Blast",
+				gived: 0,
+				taked: 1,
+				giveh: 0,
+				takeh: 15,
+				description: "Use the force to push back all enemy soliders."
+			}
+		}
+		
+		var Imperials = {
+			name: "Imperials",
+			image: "images/stormtroopers2.jpg",
+			side: "dark",
+			weapons: 10,
+			numbers: 5
+		}
+		
 		gameVars.setCurForceChoice(2);
-		gameVars.setCurHero("DarthVader");
-		gameVars.setCurArmy("Imperials");
+		gameVars.setCurHero(DarthVader);
+		gameVars.setCurArmy(Imperials);
 	};
 });
 
@@ -411,18 +463,110 @@ app.controller('prepCtrl',function($scope,gameVars)
 	$scope.side = gameVars.getCurForcChoice();
 });
 
-app.controller('armyCtrl',function($scope,gameVars)
+app.controller('armyCtrl',function($scope,gameVars,$http)
 {
 
-	$scope.armies = gameVars.getAllArmies();
+	$scope.armies = [];
+	
 	$scope.curSide = gameVars.getCurForcChoice();
 
 	$scope.updateArmyChoice = function(army)
 	{
-		army.name;
-		gameVars.setCurArmy(army.name);
+		gameVars.setCurArmy(army);
 	}
 
+	$scope.dbAddArmy = function(newArmy)
+	{
+		$http.post('/armies', newArmy).success(function(data)
+		{
+			console.log(data);
+			$scope.updateArmyList();
+		});
+		
+		
+	}
+	
+	$scope.updateArmyList = function()
+	{
+		$http.get('/armies').success(function(data)
+		{
+			angular.copy(data, $scope.armies);
+		});
+	}
+	
+	$scope.updateArmyList();
+	
+	$scope.deleteArmy = function(army)
+	{
+		$http.delete('/armies/' + army._id)
+		.success(function(data)
+		{
+			console.log("delete worked");
+		});
+		$scope.updateArmyList();
+	}
+	
+	$scope.resetArmies = function()
+	{
+		console.log("angular function resetArmies hit");
+		$http.delete('/resetArmies')
+		.success(function(data)
+		{
+			
+		});
+		
+		CloneTroopers = {
+			name: "Clone Troopers",
+			image: "images/clones2.jpg",
+			side: "light",
+			weapons: 5,
+			numbers: 8
+		};
+		WookieWarriors = {
+			name: "Wookie Warriors",
+			image: "images/wookie.jpg",
+			side: "light",
+			weapons: 10,
+			numbers: 4
+		};
+		ConfederateDroids = {
+			name: "Confederate Droids",
+			image: "images/droid.jpg",
+			side: "dark",
+			weapons: 6,
+			numbers: 6
+		};
+		MandalorianWarriors = {
+			name: "Mandalorian Warriors",
+			image: "images/Mandalorians.jpg",
+			side: "dark",
+			weapons: 10,
+			numbers: 4
+		};
+		Rebels = {
+			name: "Rebels",
+			image: "images/rebel.jpg",
+			side: "light",
+			weapons: 6,
+			numbers: 8
+		};
+		Imperials = {
+			name: "Imperials",
+			image: "images/stormtroopers2.jpg",
+			side: "dark",
+			weapons: 10,
+			numbers: 5
+		};
+		
+		$scope.dbAddArmy(CloneTroopers);
+		$scope.dbAddArmy(WookieWarriors);
+		$scope.dbAddArmy(ConfederateDroids);
+		$scope.dbAddArmy(MandalorianWarriors);
+		$scope.dbAddArmy(Rebels);
+		$scope.dbAddArmy(Imperials);
+		$scope.updateArmyList();
+	}
+	
 	$scope.addNewArmy = function(data)
 	{
 		$scope.newimage = "";
@@ -450,20 +594,39 @@ app.controller('armyCtrl',function($scope,gameVars)
 			weapons: data.weapon,
 			numbers: data.size
 		};
-		gameVars.addArmy(data.name,newArmy);
+		$scope.dbAddArmy(newArmy);
 	}
 });
 
-app.controller('heroCtrl', function($scope, gameVars)
+app.controller('heroCtrl', function($scope, $http, gameVars)
 {
-	$scope.heros = gameVars.getAllHeros();
+	$scope.dbAddHero = function(newHero)
+	{
+		$http.post('/heroes', newHero).success(function(data)
+		{
+			console.log(data);
+			$scope.updateHeroList();
+		});
+	}
+	
+	$scope.heros = [];
+	
 	$scope.curSide = gameVars.getCurForcChoice();
 	$scope.powers = gameVars.getAllPowers();
 
+	$scope.updateHeroList = function()
+	{
+		$http.get('/heroes').success(function(data)
+		{
+			angular.copy(data, $scope.heros);
+		});
+	}
+	
+	$scope.updateHeroList();
+	
 	$scope.updateHeroChoice = function(hero)
 	{
-		hero.name;
-		gameVars.setCurHero(hero.name);
+		gameVars.setCurHero(hero);
 	}
 
 	$scope.addNewHero = function(data)
@@ -495,12 +658,174 @@ app.controller('heroCtrl', function($scope, gameVars)
 			power1: newAbility1,
 			power2: newAbility2
 		};
-		gameVars.addHero(data.name,newHero);
+		
+		$scope.dbAddHero(newHero);
 	}
+	
+	$scope.deleteHero = function(hero)
+	{
+		
+		$http.delete('/heroes/' + hero._id)
+		.success(function(data)
+		{
+			console.log("delete worked");
+		});
+		$scope.updateHeroList();
+		
+	};
+	
+	$scope.resetHeros = function()
+	{
+		console.log("angular function resetHeros hit");
+		$http.delete('/resetHeros')
+		.success(function(data)
+		{
+			
+		});
+		
+		
+		console.log("db cleared");
+			DarthVader = {
+				name: "Darth Vader",
+				image: "images/vader.jpg",
+				side: "dark",
+				power1:{
+					name: "Looming Presence",
+					gived: 0,
+					taked: 3,
+					giveh: 0,
+					takeh: 10,
+					description: "The enemy soliders are terrified by your arrival.  They lose attack and some troops cower."
+				},
+				power2:{
+					name: "Force Blast",
+					gived: 0,
+					taked: 1,
+					giveh: 0,
+					takeh: 15,
+					description: "Use the force to push back all enemy soliders."
+				}
+			};
+			LukeSkywalker = {
+				name: "Luke Skywalker",
+				image: "images/luke.jpg",
+				side: "light",
+				power1: {
+					name: "Force Heal",
+					gived: 0,
+					taked: 0,
+					giveh: 25,
+					takeh: 0,
+					description: "Use the force to heal wounded soliders"
+				},
+				power2:{
+					name: "Inspire",
+					gived: 2,
+					taked: 0,
+					giveh: 20,
+					takeh: 0,
+					description: "Inspire your soliders.  They gain more attack."
+				}
+			};
+			GeneralGrevious = {
+				name: "General Grevious",
+				image: "images/grevious.jpg",
+				side: "dark",
+				power1: {
+					name: "Looming Presence",
+					gived: 0,
+					taked: 3,
+					giveh: 0,
+					takeh: 10,
+					description: "The enemy soliders are terrified by your arrival.  They lose attack and some troops cower."
+				},
+				power2:{
+					name: "Inspire",
+					gived: 2,
+					taked: 0,
+					giveh: 20,
+					takeh: 0,
+					description: "Inspire your soliders.  They gain more attack."
+				}
+			};
+			DarthMaul = {
+				name: "Darth Maul",
+				image: "images/maul.jpg",
+				side: "dark",
+				power1: {
+					name: "Looming Presence",
+					gived: 0,
+					taked: 3,
+					giveh: 0,
+					takeh: 10,
+					description: "The enemy soliders are terrified by your arrival.  They lose attack and some troops cower."
+				},
+				power2:{
+					name: "Force Lightning",
+					gived: 0,
+					taked: 0,
+					giveh: 0,
+					takeh: 30,
+					description: "Use the force to unleash devastation on the enemy soliders"
+				}
+			};
+			Yoda = {
+				name: "Yoda",
+				image: "images/yoda.jpg",
+				side: "light",
+				power1: {
+					name: "Inspire",
+					gived: 2,
+					taked: 0,
+					giveh: 20,
+					takeh: 0,
+					description: "Inspire your soliders.  They gain more attack."
+				},
+				power2:{
+					name: "Force Blast",
+					gived: 0,
+					taked: 1,
+					giveh: 0,
+					takeh: 15,
+					description: "Use the force to push back all enemy soliders."
+				}
+			};
+			ObiWan = {
+				name: "Obi Wan",
+				image: "images/kenobi.jpg",
+				side: "light",
+				power1: {
+					name: "Inspire",
+					gived: 2,
+					taked: 0,
+					giveh: 20,
+					takeh: 0,
+					description: "Inspire your soliders.  They gain more attack."
+				},
+				power2:{
+					name: "Force Heal",
+					gived: 0,
+					taked: 0,
+					giveh: 25,
+					takeh: 0,
+					description: "Use the force to heal wounded soliders"
+				}
+			};
+			
+			$scope.dbAddHero(ObiWan);
+			$scope.dbAddHero(Yoda);
+			$scope.dbAddHero(LukeSkywalker);
+			$scope.dbAddHero(DarthMaul);
+			$scope.dbAddHero(DarthVader);
+			$scope.dbAddHero(GeneralGrevious);
+			$scope.updateHeroList();
+		
+	};
 });
 
 app.controller('battleCtrl', function($scope , gameVars)
 {
+	$scope.active = true;
 	$scope.curPlayer = {
 		hero: gameVars.getCurHero(),
 		army: gameVars.getCurArmy(),
@@ -555,8 +880,9 @@ app.controller('battleCtrl', function($scope , gameVars)
 
 		if($scope.darkLife ===0 ||$scope.lightLife ===0 )
 		{
-			$scope.curMessage = "Game over!"
+			$scope.curMessage = "Game over! " + $scope.calculateWinner();
 			$scope.menulink = "Return to Main Menu";
+			angular.element(document.getElementById('attackbtn'))[0].disabled = true;
 		}
 		else if($scope.lightLife < 50 && charges !== 0)
 		{
@@ -566,8 +892,9 @@ app.controller('battleCtrl', function($scope , gameVars)
 			charges = charges - 1;
 			if($scope.darkLife ===0 ||$scope.lightLife ===0 )
 			{
-				$scope.curMessage = $scope.curMessage  + " Game over!"
+				$scope.curMessage = $scope.curMessage  + " Game over! " + $scope.calculateWinner();
 				$scope.menulink = "Return to Main Menu";
+				angular.element(document.getElementById('attackbtn'))[0].disabled = true;
 			}
 			else
 			{
@@ -616,6 +943,11 @@ app.controller('battleCtrl', function($scope , gameVars)
 			{
 				$scope.darkLife =0;
 			}
+			
+			if($scope.light.army.weapons < 0)
+			{
+				$scope.light.army.weapons = 1;
+			}
 		}
 		else
 		{
@@ -632,6 +964,23 @@ app.controller('battleCtrl', function($scope , gameVars)
 			{
 				$scope.darkLife =0;
 			}
+			
+			if($scope.dark.army.weapons < 0)
+			{
+				$scope.dark.army.weapons = 1;
+			}
+		}
+	}
+	
+	$scope.calculateWinner = function()
+	{
+		if($scope.darkLife === 0)
+		{
+			return "Light side wins!";
+		}
+		else
+		{
+			return "Dark side wins!";
 		}
 	}
 
